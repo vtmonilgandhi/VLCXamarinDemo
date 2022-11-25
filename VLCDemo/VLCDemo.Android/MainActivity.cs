@@ -4,6 +4,8 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using LibVLCSharp.Forms.Shared;
+using Xamarin.Forms;
 
 namespace VLCDemo.Droid
 {
@@ -13,7 +15,7 @@ namespace VLCDemo.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+            LibVLCSharpFormsRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
@@ -24,5 +26,21 @@ namespace VLCDemo.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            MessagingCenter.Send("app", "OnPause");
+
+        }
+
+        protected override void OnRestart()
+        {
+            base.OnRestart();
+
+            MessagingCenter.Send("app", "OnRestart");
+        }
+
     }
 }
